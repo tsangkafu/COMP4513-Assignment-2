@@ -12,3 +12,12 @@ db.connect();
 app.listen(8080, () => {
     console.log("Server started on port 8080");
 })
+
+const Movie = require("./models/Movie");
+
+const movieRouter = require('./handlers/movieRouter.js');
+
+
+
+app.use(express.urlencoded({extended: true}));
+movieRouter.allMovies(app, Movie)

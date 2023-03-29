@@ -24,4 +24,5 @@ const movieSchema = new mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model('Movie', movieSchema);
+module.exports = mongoose.model('Movie', movieSchema, 'movie');
+// 'movie' MUST be specified for the db
