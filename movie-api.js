@@ -20,4 +20,8 @@ const movieRouter = require('./handlers/movieRouter.js');
 
 
 app.use(express.urlencoded({extended: true}));
-movieRouter.allMovies(app, Movie)
+
+//routes
+movieRouter.allMovies(app, Movie);
+movieRouter.allMoviesLimit(app, Movie);
+movieRouter.singleMovie(app, Movie);
