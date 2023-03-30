@@ -1,55 +1,53 @@
 // canned error message
-const errorMsg = { message: "Could not connect to database!"}
+const movieController = require('./movieController.js');
 
 // returns all movies in the db
 const allMovies = (app, Movie) => {
     app.get('/api/movies', (req, resp) => {
-        Movie.find()
-        .then((data) => {
-            resp.json(data);
-        })
-        .catch((error) => {
-            resp.json(errorMsg);
-        });
+        movieController.retrieveAll(Movie, req, resp);
     });
 }
 
 // returns all movies up to the specified limit number, returns message if number range invalid
 const allMoviesLimit = (app, Movie) => {
     app.get('/api/movies/limit/:num', (req, resp) => {
-        if(req.params.num > 0 && req.params.num  <= 200){
-            Movie.find().limit(req.params.num)
-            .then((data) => { 
-                resp.json(data);
-            })
-            .catch((error) => {
-                resp.json(errorMsg);
-            });
-        } else {
-            resp.json({message: `Num limit must be between 1 and 200`});
-        }
+        movieController.retrieveAllLimit(Movie, req, resp);
     });
 }
 
 // returns a single movie by its id, or a message if not found
 const singleMovie = (app, Movie) => {
     app.get('/api/movies/:id', (req, resp) => {
-        Movie.find({id: req.params.id})
-        .then((data) => {
-            if(data.length > 0){
-                resp.json(data);
-            } else {
-                resp.json({message: `No movie with id: ${req.params.id} was found.`});
-            }
-            })
-        .catch((error) => {
-            resp.json(errorMsg);
-        })
+        movieController.retrieveSingle(Movie, req, resp);
+    });
+}
+
+// returns a single movie by its tmdbid, or a message if not found
+const singleMovieTMDB = (app, Movie) => {
+    app.get('/api/movies/tmdb/:id', (req, resp) => {
+        movieController.retrieveSingleTMDB(Movie, req, resp);
+    });
+}
+
+// returns movies within a specified range of years, or a message if no matches found
+const movieYearRange = (app, Movie) => {
+    app.get('/api/movies/year/:min/:max', (req, resp) => {
+        movieController.retrieveMinMax(Movie, req, resp, "release_date");
+    })
+}
+
+// returns movies within a specified range of ratings,  or a message if no matches found
+const movieRatingRange = (app, Movie) => {
+    app.get('/api/movies/ratings/:min/:max', (req, resp) => {
+        movieController.retrieveMinMax(Movie, req, resp, "ratings.average");
     })
 }
 
 module.exports = {
     allMovies,
     allMoviesLimit,
-    singleMovie
+    singleMovie,
+    singleMovieTMDB,
+    movieYearRange,
+    movieRatingRange
 };

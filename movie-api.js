@@ -25,3 +25,5 @@ app.use(express.urlencoded({extended: true}));
 movieRouter.allMovies(app, Movie);
 movieRouter.allMoviesLimit(app, Movie);
 movieRouter.singleMovie(app, Movie);
+movieRouter.movieYearRange(app, Movie);
+movieRouter.movieRatingRange(app, Movie);
