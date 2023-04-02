@@ -1,7 +1,10 @@
-const login = (app) => {
+const login = (app, User) => {
+    // if not login
     app.get('/', (req, res) => {
         res.render('login');
     });
+
+    console.log(User.find());
 
     app.post('/login', (req, res) => {
         const { username, password } = req.body;

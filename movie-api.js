@@ -1,27 +1,30 @@
-const http = require("http");
-const url = require("url");
+// common node module
 const path = require("path");
-const fs = require("fs");
+
+// express
 const express = require("express");
-const db = require("./database");
-
 const app = express();
-
-// connect to mongoDB
-db.connect();
-
-const Movie = require("./models/Movie");
-const movieRouter = require('./handlers/movieRouter.js');
-
-const User = require("./models/User");
-const userRouter = require("./handlers/userRouter.js")
-
-// using EJS (a node templating system)
+// using EJS
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({extended: true}));
 // use the public directory
 app.use(express.static(path.join(__dirname, 'public')));
 
+// db connection
+const db = require("./database");
+db.connect();
+
+// other third-party libraries
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+
+// models and handlers
+const Movie = require("./models/Movie");
+const movieRouter = require('./handlers/movieRouter.js');
+const User = require("./models/User");
+const loginRouter = require("./handlers/loginRouter.js")
+
+// start the server
 app.listen(8080, () => {
     console.log("Server started on port 8080");
 })
@@ -34,4 +37,4 @@ movieRouter.movieYearRange(app, Movie);
 movieRouter.movieRatingRange(app, Movie);
 
 // routes to the login page
-userRouter.login(app);
+loginRouter.login(app, User);
