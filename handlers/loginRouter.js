@@ -17,7 +17,8 @@ const login = (app, User) => {
                     controller.authenticate(password, password_bcrypt)
                         .then((result) => {
                             if (result) {
-                                res.render("login", { error: "Correct password." });
+                                // redirect to home page
+                                res.render("home");
                             } else {
                                 res.render("login", { error: "Incorrect password." });
                             }
