@@ -1,4 +1,3 @@
-// canned error message
 const movieController = require('./movieController.js');
 
 // returns all movies in the db
