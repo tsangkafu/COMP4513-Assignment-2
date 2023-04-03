@@ -43,11 +43,27 @@ const movieRatingRange = (app, Movie) => {
     })
 }
 
+// finds a movie that partially matches the inputted text, or returns a message if no matches found 
+const movieTitle = (app, Movie) => {
+    app.get('/api/movies/title/:text', (req, resp) => {
+        movieController.retrieveTitle(Movie, req, resp);
+    })
+}
+
+// finds a movie that matches the inputted genre, or returns a message if no matches found 
+const movieGenre = (app, Movie) => {
+    app.get('/api/movies/genre/:text', (req, resp) => {
+        movieController.retrieveGenre(Movie, req, resp);
+    })
+}
+
 module.exports = {
     allMovies,
     allMoviesLimit,
     singleMovie,
     singleMovieTMDB,
     movieYearRange,
-    movieRatingRange
+    movieRatingRange,
+    movieTitle,
+    movieGenre
 };

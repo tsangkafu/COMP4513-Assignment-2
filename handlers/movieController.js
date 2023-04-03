@@ -89,10 +89,47 @@ const retrieveMinMax = (Movie, req, resp, type) => {
     }
 }
 
+// finds a movie that partially matches the inputted text, or returns a message if no matches found 
+const retrieveTitle = (Movie, req, resp) => {
+    Movie.find({title: { $regex: req.params.text, $options: 'i'}})
+        .then((data) => {
+            if(data.length > 0){
+                resp.json(data);
+            } else {
+                resp.json({message: `No movie with title: ${req.params.text} was found.`});
+            }
+            })
+        .catch((error) => {
+            resp.json(errorMsg);
+        })
+}
+
+// finds a movie that matches the inputted genre, or returns a message if no matches found 
+const retrieveGenre = (Movie, req, resp) => {
+
+    let genre = req.params.text.toLowerCase();
+    genre = genre.charAt(0).toUpperCase() + genre.slice(1); // convert to first letter capitalized to match DB entry format
+
+    Movie.find({"details.genres.name": genre})
+        .then((data) => {
+            if(data.length > 0){
+                resp.json(data);
+            } else {
+                resp.json({message: `No movie with genre: ${genre} was found.`});
+            }
+            })
+        .catch((error) => {
+            resp.json(errorMsg);
+        })
+}
+
+
 module.exports = {
     retrieveAll,
     retrieveAllLimit,
     retrieveSingle,
     retrieveSingleTMDB,
-    retrieveMinMax
+    retrieveMinMax,
+    retrieveTitle,
+    retrieveGenre
 }
