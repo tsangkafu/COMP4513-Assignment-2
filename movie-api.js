@@ -35,6 +35,8 @@ movieRouter.allMoviesLimit(app, Movie);
 movieRouter.singleMovie(app, Movie);
 movieRouter.movieYearRange(app, Movie);
 movieRouter.movieRatingRange(app, Movie);
+movieRouter.movieTitle(app, Movie);
+movieRouter.movieGenre(app, Movie);
 
 // routes to the login page
 loginRouter.login(app, User);
