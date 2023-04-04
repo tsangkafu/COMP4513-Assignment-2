@@ -4,9 +4,11 @@ const path = require("path");
 // express
 const express = require("express");
 const app = express();
+
 // using EJS
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({extended: true}));
+
 // use the public directory
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -14,14 +16,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 const db = require("./database");
 db.connect();
 
-// other third-party libraries
-const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
+// other third party libraries
+const flash = require('connect-flash');
+app.use(flash());
 
 // models and handlers
 const Movie = require("./models/Movie");
-const movieRouter = require('./handlers/movieRouter.js');
 const User = require("./models/User");
+const movieRouter = require('./handlers/movieRouter.js');
 const loginRouter = require("./handlers/loginRouter.js")
 
 // start the server

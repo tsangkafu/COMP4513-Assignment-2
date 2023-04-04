@@ -27,6 +27,12 @@ label {
 	margin-bottom: 5px;
 }
 
+.error {
+	color: red;
+	display: block;
+  	height: 30px;
+}
+
 input[type="text"],
 input[type="password"] {
 	padding: 10px;
@@ -51,3 +57,17 @@ button[type="submit"] {
 button[type="submit"]:hover {
 	background-color: #2E8B57;
 }
+
+.fade-out {
+	animation: fade-out 1s ease-out forwards;
+}
+  
+@keyframes fade-out {
+	from {
+	  opacity: 1;
+	}
+	to {
+	  opacity: 0;
+	}
+}
+  

@@ -9,10 +9,12 @@
 <body>
 	<div class="container">
 		<h2>COMP4513 - Assignment 2</h2>
-		<% if (typeof error !== 'undefined') { %>
-			<p style="color: red;"><%= error %></p>
-		<% } %>
-		<form action="/login" method="POST">
+		<div class="error">
+			<% if (typeof message !== 'undefined') { %>
+				<%= message %>
+			<% } %>
+		</div>
+			<form action="/login" method="POST">
 			<label for="username">Email</label>
 			<input type="text" id="username" name="username" required>
 			<label for="password">Password</label>
@@ -21,7 +23,18 @@
 			<button type="submit">Login</button>
 		</form>
 	</div>
-	
 	<script src="/movie-api.js"></script>
+	<script>
+		// get the error message element
+		const errorMessage = document.querySelector('.error');
+		// if the error message exists, fade it out after 2 seconds
+		if (errorMessage) {
+			setTimeout(() => {
+				errorMessage.classList.add('fade-out');
+			}, 1500);
+		}
+	</script>
 </body>
 </html>
+
+

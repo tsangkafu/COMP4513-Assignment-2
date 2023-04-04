@@ -1,11 +1,11 @@
 const bcrypt = require("bcrypt");
 
-// if the user exists, return the password_bcrypt
+// if the user exists, return the user object
 const getBcrypt = (User, username) => {
     return new Promise ((res, rej) => {
         User.find({email: username})
             // return the bcrypt if user exists else return null
-            .then((data) => data.length > 0 ? res(data[0].password_bcrypt) : res(null))
+            .then((data) => data.length > 0 ? res(data[0]) : res(null))
             .catch((err) => rej(err));
     })
 }
