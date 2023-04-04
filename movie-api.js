@@ -31,6 +31,8 @@ app.listen(8080, () => {
     console.log("Server started on port 8080");
 })
 
+// app.use('/api/movies', loginRouter.isAuthenticated);
+
 //routes to the api
 movieRouter.allMovies(app, Movie);
 movieRouter.allMoviesLimit(app, Movie);

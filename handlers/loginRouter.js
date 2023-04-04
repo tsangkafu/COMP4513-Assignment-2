@@ -13,6 +13,11 @@ const login = (app, User) => {
 
     app.use(passport.initialize());
     app.use(passport.session());
+
+    // add middleware to check if user is authenticated
+    const isAuthenticated = (req, res, next) => {
+        req.isAuthenticated()?  next() : res.redirect('/');
+    }
     
     // if not login or not authenticated, go to the login page
     app.get('/', (req, res) => {
@@ -97,13 +102,12 @@ const login = (app, User) => {
             });
         });
     });
-      
-    
 
 }
 
 module.exports = {
-    login
+    login,
+    isAuthenticated
 };
 
 
