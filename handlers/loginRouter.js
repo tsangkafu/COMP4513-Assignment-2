@@ -14,7 +14,7 @@ const setRoutes = (app, User) => {
     // otherwise, render the login page
     app.get('/login', (req, res) => {
         if (req.isAuthenticated()) {
-            res.render('home');
+            res.redirect("home");
         } else {
             const message = req.flash('error')[0];
             res.render('login', { message: message });
