@@ -1,4 +1,54 @@
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const session = require('express-session');
 const bcrypt = require("bcrypt");
+
+const passportInit = (app) => {
+    // Configure session middleware
+    app.use(session({
+        secret: 'secret-key',
+        resave: false,
+        saveUninitialized: true,
+    }));
+    app.use(passport.initialize());
+    app.use(passport.session());
+}
+
+const login = (User) => {
+    passport.use(new LocalStrategy({usernameField: 'username', passwordField: 'password'},
+        (username, password, done) => {
+            getBcrypt(User, username)
+                .then((user) => {
+                    // User exists, check if password match
+                    if (user !== null) {
+                        authenticate(password, user.password_bcrypt)
+                            .then((result) => {
+                                if (result)
+                                    return done(null, user);
+                                else
+                                    return done(null, false, { message: 'Incorrect password.' });
+                            })
+                    } else {
+                        // User does not exist
+                        return done(null, false, { message: 'Incorrect username.' });
+                    }
+                })
+                .catch((err) => {
+                    return done(err);
+                });
+        }
+    ));
+
+    // The serializeUser and deserializeUser methods are used to
+    // convert user objects to and from a unique identifier
+    passport.serializeUser((user, done) => {
+        done(null, user);
+    });
+    
+    passport.deserializeUser((user, done) => {
+        done(null, user);
+    });
+}
 
 // if the user exists, return the user object
 const getBcrypt = (User, username) => {
@@ -20,7 +70,15 @@ const authenticate = (password, password_bcrypt) => {
     })
 }
 
+// add middleware to check if user is authenticated
+const isAuthenticated = (req, res, next) => {
+    req.isAuthenticated()?  next() : res.redirect('/');
+}
+
 module.exports = {
+    login,
+    passportInit,
     getBcrypt,
-    authenticate
+    authenticate,
+    isAuthenticated,
 };
