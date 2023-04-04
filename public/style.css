@@ -33,6 +33,12 @@ label {
   	height: 30px;
 }
 
+.success {
+	color: green;
+	display: block;
+  	height: 30px;
+}
+
 input[type="text"],
 input[type="password"] {
 	padding: 10px;

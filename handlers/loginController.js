@@ -22,12 +22,13 @@ const login = (User) => {
                     // User exists, check if password match
                     if (user !== null) {
                         authenticate(password, user.password_bcrypt)
-                            .then((result) => {
-                                if (result)
-                                    return done(null, user);
-                                else
-                                    return done(null, false, { message: 'Incorrect password.' });
-                            })
+                            .then((success) => {
+                                // if the password matches
+                                if (success) {
+                                    return done(null, user, { message: 'You have successfully logged in.' });
+                                } else {
+                                    return done(null, false, { message: 'Incorrect password.' });}
+                            }) 
                     } else {
                         // User does not exist
                         return done(null, false, { message: 'Incorrect username.' });
@@ -44,7 +45,6 @@ const login = (User) => {
     passport.serializeUser((user, done) => {
         done(null, user);
     });
-    
     passport.deserializeUser((user, done) => {
         done(null, user);
     });
@@ -64,15 +64,15 @@ const getBcrypt = (User, username) => {
 const authenticate = (password, password_bcrypt) => {
     // if user exists, compare the digest
     return new Promise ((res, rej) => {
-        bcrypt.compare(password, password_bcrypt, function(err, result) {
-            err? rej(err) : res(result);
+        bcrypt.compare(password, password_bcrypt, function(err, success) {
+            err? rej(err) : res(success);
         })
     })
 }
 
 // add middleware to check if user is authenticated
 const isAuthenticated = (req, res, next) => {
-    req.isAuthenticated()?  next() : res.redirect('/');
+    req.isAuthenticated()? next() : res.render('login', {message : "Please login before using APIs."});
 }
 
 module.exports = {

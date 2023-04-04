@@ -8,7 +8,12 @@
 </head>
 <body>
 	<div class="container">
-		<h1><%= user.details.firstname %>, Welcome to the Movie API!</h1>
+		<h2><%= user.details.firstname %>, Welcome to the Movie API!</h2>
+		<div class="success">
+			<% if (typeof message !== 'undefined') { %>
+				<%= message %>
+			<% } %>
+		</div>
 		<p>Here you can browse and search for your favorite movies.</p>
 		
 		<form action="/logout" method="POST">
@@ -17,5 +22,15 @@
 	</div>
 	
 	<script src="/public/movie-api.js"></script>
+	<script>
+		// get the error message element
+		const successMessage = document.querySelector('.success');
+		// if the error message exists, fade it out after 2 seconds
+		if (successMessage) {
+			setTimeout(() => {
+				successMessage.classList.add('fade-out');
+			}, 1500);
+		}
+	</script>
 </body>
 </html>
