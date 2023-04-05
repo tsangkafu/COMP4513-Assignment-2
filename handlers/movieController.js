@@ -14,36 +14,45 @@ const retrieveAll = (Movie, req, resp) => {
 
 // returns all movies up to the specified limit number, returns message if number range invalid
 const retrieveAllLimit = (Movie, req, resp) => {
-    if(parseInt(req.params.num) > 0 && parseInt(req.params.num)  <= 200){
-        Movie.find().limit(req.params.num)
-        .then((data) => { 
-            resp.json(data);
-        })
-        .catch((error) => {
-            resp.json(errorMsg);
-        });
+    if(!isNaN(req.params.num)){
+        if(parseInt(req.params.num) > 0 && parseInt(req.params.num)  <= 200){
+            Movie.find().limit(req.params.num)
+            .then((data) => { 
+                resp.json(data);
+            })
+            .catch((error) => {
+                resp.json(errorMsg);
+            });
+        } else {
+            resp.json({message: `Num limit must be between 1 and 200`});
+        }
     } else {
-        resp.json({message: `Num limit must be between 1 and 200`});
+        resp.json({message: `Input must be number`});
     }
 }
 
 // returns a single movie by its id, or a message if not found
 const retrieveSingle = (Movie, req, resp) => {
-    Movie.find({id: req.params.id})
-        .then((data) => {
-            if(data.length > 0){
-                resp.json(data);
-            } else {
-                resp.json({message: `No movie with id: ${req.params.id} was found.`});
-            }
+    if(!isNaN(req.params.id)){
+        Movie.find({id: req.params.id})
+            .then((data) => {
+                if(data.length > 0){
+                    resp.json(data);
+                } else {
+                    resp.json({message: `No movie with id: ${req.params.id} was found.`});
+                }
+                })
+            .catch((error) => {
+                resp.json(errorMsg);
             })
-        .catch((error) => {
-            resp.json(errorMsg);
-        })
+    } else {
+        resp.json({message: `Input must be number`});
+    }
 }
 
 // returns a single movie by its tmdb id, or a message if not found
 const retrieveSingleTMDB = (Movie, req, resp) => {
+    if(!isNaN(req.params.id)){
     Movie.find({tmdb_id: req.params.id})
         .then((data) => {
             if(data.length > 0){
@@ -53,39 +62,46 @@ const retrieveSingleTMDB = (Movie, req, resp) => {
             }
             })
         .catch((error) => {
-            resp.json(errorMsg);
+            resp.json({ message: error});
         })
+    } else {
+        resp.json(errorMsg);
+    }
 }
 
 // finds movies in a range of either rating or years when specified, or returns a message if no matches found
 const retrieveMinMax = (Movie, req, resp, type) => {
-    if(parseInt(req.params.max) > parseInt(req.params.min)){
+    if(!isNaN(req.params.min) && !isNaN(req.params.max)){
+        if(parseInt(req.params.max) > parseInt(req.params.min)){
 
-        let min;
-        let max;
+            let min;
+            let max;
 
-        if(type == "release_date"){
-            // converts the years to string of the format for comparison
-            min = req.params.min.toString().concat("-00-00");
-            max = req.params.max.toString().concat("-00-00");
-        } else {
-            min = req.params.min;
-            max = req.params.max;
-        }
-        
-        Movie.find().where(type).gte(min).lte(max)
-        .then((data) => { 
-            if(data.length > 0){
-                resp.json(data);
+            if(type == "release_date"){
+                // converts the years to string of the format for comparison
+                min = req.params.min.toString().concat("-00-00");
+                max = req.params.max.toString().concat("-00-00");
             } else {
-                resp.json({message: `No movies found within specified ${type} range of ${req.params.min} and ${req.params.max}`});
+                min = req.params.min;
+                max = req.params.max;
             }
-        })
-        .catch((error) => {
-            resp.json(errorMsg);
-        });
-    } else {
-        resp.json({message: `Max must be larger than min`});
+            
+            Movie.find().where(type).gte(min).lte(max)
+            .then((data) => { 
+                if(data.length > 0){
+                    resp.json(data);
+                } else {
+                    resp.json({message: `No movies found within specified ${type} range of ${req.params.min} and ${req.params.max}`});
+                }
+            })
+            .catch((error) => {
+                resp.json(errorMsg);
+            });
+        } else {
+            resp.json({message: `Max must be larger than min`});
+    }
+    }else {
+        resp.json({message: `Input must be number`});
     }
 }
 
