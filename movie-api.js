@@ -47,6 +47,7 @@ app.use('/api/movies', loginController.isAuthenticated);
 movieRouter.allMovies(app, Movie);
 movieRouter.allMoviesLimit(app, Movie);
 movieRouter.singleMovie(app, Movie);
+movieRouter.singleMovieTMDB(app, Movie);
 movieRouter.movieYearRange(app, Movie);
 movieRouter.movieRatingRange(app, Movie);
 movieRouter.movieTitle(app, Movie);
