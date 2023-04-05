@@ -15,10 +15,51 @@
 			<% } %>
 		</div>
 		<p>Here you can browse and search for your favorite movies.</p>
-		
 		<form action="/logout" method="POST">
 			<button type="submit">Logout</button>
 		</form>
+		<table>
+			<thead>
+				<tr>
+					<th>API Endpoint</th>
+					<th>Description</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr>
+					<td>/api/movies</td>
+					<td>Returns all movies. The file sample_movie.json illustrates the expected format for all these APIs.</td>
+				</tr>
+				<tr>
+					<td>/api/movies/limit/num</td>
+					<td>Returns the first num movies. The num field must be between 1 and 200.</td>
+				</tr>
+				<tr>
+					<td>/api/movies/id</td>
+					<td>Returns JSON for the single movie whose id matches the provided id.</td>
+				</tr>
+				<tr>
+					<td>/api/movies/tmdb/id</td>
+					<td>Returns the movie whose tmdb_id matches the provided id.</td>
+				</tr>
+				<tr>
+					<td>/api/movies/year/min/max</td>
+					<td>Returns all movies whose year is between the two supplied values. If min is larger than max, then return an error message.</td>
+				</tr>
+				<tr>
+					<td>/api/movies/ratings/min/max</td>
+					<td>Returns all movies whose average rating is between the two supplied values. If min is larger than max, then return an error message.</td>
+				</tr>
+				<tr>
+					<td>/api/movies/title/text</td>
+					<td>Returns movies whose title contains (somewhere) the provided text. This search should be case insensitive.</td>
+				</tr>
+				<tr>
+					<td>/api/movies/genre/name</td>
+					<td>Returns movies that have a genre name that matches the provided value. This should be case insensitive.</td>
+			  	</tr>
+			</tbody>
+		</table>
 	</div>
 	
 	<script src="/public/movie-api.js"></script>
