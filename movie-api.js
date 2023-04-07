@@ -41,7 +41,7 @@ app.listen(8080, () => {
 loginRouter.setRoutes(app, User);
 
 // force the user to login before using the APIs
-app.use('/api/movies', loginController.isAuthenticated);
+// app.use('/api/movies', loginController.isAuthenticated);
 
 //routes to the api
 movieRouter.allMovies(app, Movie);

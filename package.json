@@ -13,9 +13,10 @@
   "name": "comp4513-assignment-2",
   "description": "",
   "version": "1.0.0",
-  "main": "database.js",
+  "main": "movie-api.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node movie-api.js"
   },
   "repository": {
     "type": "git",
@@ -26,5 +27,9 @@
   "bugs": {
     "url": "https://github.com/tsangkafu/COMP4513-Assignment-2/issues"
   },
-  "homepage": "https://github.com/tsangkafu/COMP4513-Assignment-2#readme"
+  "homepage": "https://github.com/tsangkafu/COMP4513-Assignment-2#readme",
+  "engines": {
+    "node": "16.17.1"
+  },
+  "devDependencies": {}
 }
