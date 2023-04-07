@@ -62,10 +62,10 @@ const retrieveSingleTMDB = (Movie, req, resp) => {
             }
             })
         .catch((error) => {
-            resp.json({ message: error});
+            resp.json(errorMsg);
         })
     } else {
-        resp.json(errorMsg);
+        resp.json({message: `Input must be number`});
     }
 }
 
